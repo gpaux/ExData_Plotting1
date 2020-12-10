@@ -12,7 +12,10 @@ unzip(filename, list=TRUE)
 
 # Dataset ----
 ## Get the data ----
-household_power_consumption <- fread(cmd = 'unzip -cq elec_power.zip') 
+household_power_consumption <- fread(cmd = 'unzip -cq elec_power.zip', 
+                                     sep = ";",
+                                     na.strings = "?",
+                                     colClasses = c("character", "character", rep("numeric", 7))) 
 str(household_power_consumption)
 
 ## Tranform the data ----
@@ -20,15 +23,7 @@ str(household_power_consumption)
 household_power_consumption_fmt <- household_power_consumption %>% 
     mutate(Date = dmy(Date)) %>% 
     filter(Date >= "2007-02-01" & Date <= "2007-02-02") %>% ### Filter the data from 2007-02-01 and 2007-02-02
-    mutate_each(funs(replace(., .  == "?", "")),-Date) %>% ### Replace the ? by missing
-    mutate(Time = strptime(paste(Date,Time), "%Y-%m-%d  %H:%M:%S"),
-           Global_active_power  = as.numeric(Global_active_power),
-           Global_reactive_power = as.numeric(Global_reactive_power),
-           Voltage = as.numeric(Voltage),
-           Global_intensity = as.numeric(Global_intensity),
-           Sub_metering_1 = as.numeric(Sub_metering_1),
-           Sub_metering_2 = as.numeric(Sub_metering_2),
-           Sub_metering_3 = as.numeric(Sub_metering_3))
+    mutate(Time = strptime(paste(Date,Time), "%Y-%m-%d  %H:%M:%S"))
 str(household_power_consumption_fmt)
 
 ## Plot 3 ----
