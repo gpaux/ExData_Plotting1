@@ -29,7 +29,7 @@ str(household_power_consumption_fmt)
 # Plot 4 ----
 png(filename = "plot4.png", width = 480, height = 480, units = "px")
 ## Plot 4 is a 2*2 matrix of plots
-par(mfrow = c(2, 2), mar = c(2,4,4,1), cex = 0.8)
+par(mfrow = c(2, 2), mar = c(4,4,4,1), cex = 0.8)
 #### top left plot
 with(household_power_consumption_fmt, plot(x = Time, 
                                            y = Global_active_power, 
